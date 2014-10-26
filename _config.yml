@@ -1,6 +1,6 @@
 # Site wide configuration
 
-title:            Site Title
+title:            don't pay me ne never mind
 locale:           en_US
 url:              http://localhost:4000
 
@@ -26,21 +26,21 @@ kramdown:
 
 # Site owner
 owner:
-  name: Your Name
+  name: fred
   avatar: bio-photo.jpg
-  bio: "Describe your self."
-  email: 
+  bio: "yet another sysadmin blog"
+  email: fred@never-mind.ch
   disqus-shortname: 
   twitter: #username
   facebook: #username
   google:
-    plus: #username
-    analytics: 
+    plus: FrédéricBadel #username
+    analytics: UA-56105173-1 
     verify: 
     ad-client: 
     ad-slot: 
   bing-verify: 
-  github: #username
+  github: 00ps #username
   stackoverflow: #http://stackoverflow.com/users/123456/username
   linkedin: #username
   instagram: #username
