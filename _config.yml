@@ -2,8 +2,8 @@
 
 title:            don't pay me ne never mind
 locale:           en_US
-url:              http://localhost:4000
-
+#url:              http://localhost:4000
+url: http://00ps.github.io
 
 # Jekyll configuration
 
