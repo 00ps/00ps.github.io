@@ -1,0 +1,14 @@
+name: don't pay me no never mind
+description: yet another sysadmin blog
+meta_description: "don't pay me no never mind"
+
+markdown: redcarpet
+highlighter: pygments
+logo: false
+paginate: 15
+baseurl: /
+domain_name: 'http://blog.never-mind.ch'
+
+# Details for the RSS feed generator
+url:            'http://blog.never-mind.ch'
+author:         '00ps'
