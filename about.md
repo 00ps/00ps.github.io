@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About me 
+title: About me
 ---
 
 
@@ -8,7 +8,7 @@ It's not that I have much to say ...
 
 anyway, Hi!
 
-I'm fred, I am a sysadmin (since a few years, we're called devops)
+I'm fred, I am a sysadmin
 
 I fall in love with [Linux](http://kernel.org) when I installed my first [RedHat](http://redhat.com) ... a little bit more than 15 years ago!
 
