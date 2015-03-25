@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+  <channel>
+    <title>don't pay me no never mind</title>
+    <link>http://blog.never-mind.ch</link>
+    <description>yet another sysadmin blog</description>
+    <pubDate>Fri, 14 Feb 2014 11:18:00 +0100</pubDate>
+    <item>
+      <title>Brocade Vyatta with an External RADIUS</title>
+      <link>http://blog.never-mind.ch/sysadmin/2014/02/14/vyatta-radius.html</link>
+      <description>&lt;p&gt;You&amp;#39;ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory - edit this post and re-build (or run with the &lt;code&gt;-w&lt;/code&gt; switch) to see your changes!
+To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention: YYYY-MM-DD-name-of-post.ext.&lt;/p&gt;
+</description>
+      <pubDate>Fri, 14 Feb 2014 11:18:00 +0100</pubDate>
+      <dc:date>2014-02-14T11:18:00+01:00</dc:date>
+    </item>
+    <dc:date>2014-02-14T11:18:00+01:00</dc:date>
+  </channel>
+</rss>
