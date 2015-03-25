@@ -31,25 +31,27 @@
     <article class="post">
 
         <header class="post-header">
-            <h1 class="post-title">Brocade Vyatta with an External RADIUS</h1>
+            <h1 class="post-title">Jekyll plugins on Github</h1>
             <div class="post-tags">
   Tags: 
   
     
   
   
-  <a href="/tags/#aws">aws</a>,
+  <a href="/tags/#jekyll">jekyll</a>,
   
-  <a href="/tags/#sysadmin">sysadmin</a>,
+  <a href="/tags/#git">git</a>,
+  
+  <a href="/tags/#github">github</a>,
   
   <a href="/tags/#tips 'n tricks">tips 'n tricks</a>
   
 </div>
 
             <section class="post-meta">                
-                <time class="post-date" datetime="2014-02-14">14 Feb 2014</time>
+                <time class="post-date" datetime="2015-03-25">25 Mar 2015</time>
                  
-                    on sysadmin 
+                    on jekyll 
                 
             </section>
         </header>
@@ -63,60 +65,79 @@
         </header> -->
         
         <!-- <span class="post-meta">
-            <time datetime="2014-02-14">14 Feb 2014</time>
+            <time datetime="2015-03-25">25 Mar 2015</time>
              
-                on sysadmin 
+                on jekyll 
             
         </span> -->
 
-        <!-- <h1 class="post-title">Brocade Vyatta with an External RADIUS</h1> -->
+        <!-- <h1 class="post-title">Jekyll plugins on Github</h1> -->
 
         <section class="post-content">
-            <h5>intro</h5>
+            <h5>Intro</h5>
 
-<p>When it comes to secure your access to an AWS VPC, the [Brocade Vyatta vRouter 5400] offers all the required functionalities in a quickly and easily deployable appliance.</p>
+<p><a href="http://www.github.com">Github</a> allows you to host your website/weblog for free ... that is awesome!
+What&#39;s great whit Github hosting is that your site IS a git repo, so you benefits from all the git feature (versioning, diff, etc).</p>
 
-<p>You can get it from the <a href="https://aws.amazon.com/marketplace/pp/B009I5TLOE/ref=mkt_ste_l2_nw_f2?nc2=h_l3_n">AWS market place</a> and in a few minutes you have a running firewall/VPN gateway!</p>
+<p>Even more awesome! <a href="http://www.github.com">Github</a> support <a href="http://jekyllrb.com">Jekyll</a> and generate your web pages on the fly from your markdown files. For those who don&#39;t know, <a href="http://jekyllrb.com">Jekyll</a> is a static site generator that comes with a bunch of <a href="http://jekyllthemes.org">templates</a> and <a href="http://jekyllrb.com/docs/plugins/">plugins</a>...
+wait!! plugins!? ... ho no! Github does not support plugins!</p>
 
-<h5>Vyatta in two words</h5>
+<p>No need to panic, you can still generate your site locally and push the html content to Github, this is how:</p>
 
-<p><a href="http://en.wikipedia.org/wiki/Vyatta">Vyatta</a> is a software-based router, firewall and VPN. It is based on <a href="http://www.debian.org">Debian</a>. It offer a &quot;CLI&quot; that allow an easy an quick configuration (note: there is also a web interface, but I never seen it in action)</p>
+<h5>Step by step guide</h5>
 
-<h5>the RADIUS trick</h5>
-
-<p>The default setup is to use a local directory to authenticate your VPN users, which does not match centralized authentication requirements that you may have.</p>
-
-<p>But! there is an undocumented feature that allows you to user an external <a href="http://en.wikipedia.org/wiki/RADIUS">RADIUS</a> to authenticate your users.</p>
-
-<p>First, you will need to tell openvpn to use the <strong>openvpn-auth-pam</strong> plugin, make sure you pass the following options:</p>
-
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">set </span>interfaces openvpn vtun0 openvpn-option <span class="s1">&#39;--plugin</span>
-<span class="s1">/usr/lib64/openvpn/openvpn-auth-pam.so openvpn --comp-lzo</span>
-<span class="s1">--client-cert-not-required --username-as-common-name --script-security 2&#39;</span></code></pre></div>
-
-<p>Then, you need to configure <a href="http://en.wikipedia.org/wiki/Pluggable_authentication_module">PAM</a> to use your <a href="http://en.wikipedia.org/wiki/RADIUS">RADIUS</a> server.</p>
+<p>I found this <a href="http://davidensinger.com/2013/04/deploying-jekyll-to-github-pages/">interesting howto</a> which describe the following steps:</p>
 
 <ol>
-<li>create <code>/etc/pam_radius_auth.conf</code> with the following content:</li>
+<li>create a new branch that you are going to use as a working branch, let&#39;s call it &quot;source&quot;:</li>
 </ol>
 
-<p><code>
-ip.address.of.radius  your_radius_secret
-</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git branch <span class="nb">source</span></code></pre></div>
 
 <ol>
-<li>create <code>/etc/pam.d/openvpn</code> with the following:</li>
+<li><p>add whatever you want to add to your website in this new branch</p></li>
+<li><p>tell jekyll to regenerate the html content of you site:</p></li>
 </ol>
 
-<p>`</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">jekyll build</code></pre></div>
 
-<h1>%PAM-1.0</h1>
+<ol>
+<li>once ready to publish, delete the &quot;master&quot; branch:</li>
+</ol>
 
-<p>auth          sufficient      pam<em>radius</em>auth.so      debug
-account       sufficient      pam_permit.so
-`</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git branch -D master</code></pre></div>
 
-<p>You are now ready to go!!</p>
+<ol>
+<li>recreate a new &quot;master&quot;</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git checkout -b master</code></pre></div>
+
+<ol>
+<li>and tell git to filter the content of master:</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git filter-branch --subdirectory-filter _site/ -f</code></pre></div>
+
+<ol>
+<li>you can finally push your local changes to <a href="http://www.github.com">Github</a>:</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git push --all origin</code></pre></div>
+
+<h5>Quick explanation</h5>
+
+<p>What you&#39;ve done, is basically telling git to show only the content of the &quot;_site/&quot; directory from the master branch, this is what is going to be published by Github.</p>
+
+<h5>Troubleshooting</h5>
+
+<p><strong>Found nothing to rewrite</strong></p>
+
+<p>If git refuses to filter your branch with this message, make sure that you haven&#39;t forgotten to remove &quot;_site&quot; from your .gitignore :)</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git filter-branch --subdirectory-filter _site/ -f
+
+Found nothing to rewrite</code></pre></div>
 
         </section>
 
@@ -142,15 +163,15 @@ account       sufficient      pam_permit.so
             <!-- Share links section -->
             <section class="share">
     <h4>Share this post</h4>
-    <a class="icon-twitter" href="http://twitter.com/share?text=Brocade Vyatta with an External RADIUS&amp;url=http://blog.never-mind.ch/sysadmin/2014/02/14/vyatta-radius.html"
+    <a class="icon-twitter" href="http://twitter.com/share?text=Jekyll plugins on Github&amp;url=http://blog.never-mind.ch/jekyll/2015/03/25/jekyll-plugins-on-github.html"
         onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
         <span class="hidden">Twitter</span>
     </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.never-mind.ch/sysadmin/2014/02/14/vyatta-radius.html"
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.never-mind.ch/jekyll/2015/03/25/jekyll-plugins-on-github.html"
         onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
         <span class="hidden">Facebook</span>
     </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://blog.never-mind.ch/sysadmin/2014/02/14/vyatta-radius.html"
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://blog.never-mind.ch/jekyll/2015/03/25/jekyll-plugins-on-github.html"
        onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
         <span class="hidden">Google+</span>
     </a>
