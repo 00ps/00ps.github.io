@@ -8,21 +8,49 @@ tags:
   - sysadmin
   - tips 'n tricks
 ---
+##### intro
+When it comes to secure your access to an AWS VPC, the [Brocade Vyatta vRouter 5400] offers all the required functionalities in a quickly and easily deployable appliance.
 
-You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
-To add new posts, simply add a file in the `_posts` directory that follows the convention: YYYY-MM-DD-name-of-post.ext.
+You can get it from the [AWS market place][aws-market] and in a few minutes you have a running firewall/VPN gateway!
 
-Jekyll also offers powerful support for code snippets:
+##### Vyatta in two words
+[Vyatta] is a software-based router, firewall and VPN. It is based on [Debian][debian]. It offer a "CLI" that allow an easy an quick configuration (note: there is also a web interface, but I never seen it in action)
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
+##### the RADIUS trick
+The default setup is to use a local directory to authenticate your VPN users, which does not match centralized authentication requirements that you may have.
+
+But! there is an undocumented feature that allows you to user an external [RADIUS][radius] to authenticate your users.
+
+
+First, you will need to tell openvpn to use the **openvpn-auth-pam** plugin, make sure you pass the following options:
+
+{% highlight bash %}
+set interfaces openvpn vtun0 openvpn-option '--plugin
+/usr/lib64/openvpn/openvpn-auth-pam.so openvpn --comp-lzo
+--client-cert-not-required --username-as-common-name --script-security 2'
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll's GitHub repo][jekyll-gh].
+Then, you need to configure [PAM][pam] to use your [RADIUS][radius] server.
 
-[jekyll-gh]: https://github.com/mojombo/jekyll
-[jekyll]:    http://jekyllrb.com
+1. create `/etc/pam_radius_auth.conf` with the following content:
+
+`
+ip.address.of.radius  your_radius_secret
+`
+
+2. create `/etc/pam.d/openvpn` with the following:
+
+`
+#%PAM-1.0
+auth          sufficient      pam_radius_auth.so      debug
+account       sufficient      pam_permit.so
+`
+
+You are now ready to go!!
+
+[aws-market]: https://aws.amazon.com/marketplace/pp/B009I5TLOE/ref=mkt_ste_l2_nw_f2?nc2=h_l3_n
+[brocade]: http://www.brocade.com/products/all/network-functions-virtualization/product-details/5400-vrouter/specifications.page
+[radius]: http://en.wikipedia.org/wiki/RADIUS
+[vyatta]: http://en.wikipedia.org/wiki/Vyatta
+[debian]: http://www.debian.org
+[pam]: http://en.wikipedia.org/wiki/Pluggable_authentication_module
